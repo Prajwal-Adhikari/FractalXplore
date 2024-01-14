@@ -56,27 +56,6 @@ class FractalSelectionMenu:
 
         return menu_rect
 
-# class HelloWindow:
-#     def __init__(self, screen, width, height):
-#         self.screen = screen
-#         self.width = width
-#         self.height = height
-
-#     def show(self):
-#         self.screen.fill((255, 255, 255))
-
-#         hello_font = pygame.font.Font(None, 36)
-#         hello_text = hello_font.render("Hello!", True, (0, 0, 0))
-#         hello_text_rect = hello_text.get_rect(center=(self.width // 2, self.height // 2))
-
-#         self.screen.blit(hello_text, hello_text_rect)
-
-#         pygame.display.flip()
-#         pygame.time.wait(2000)
-#         self.screen.fill((0, 0, 0))
-
-#         return hello_text_rect
-
 class HelloWindow:
     def __init__(self, screen, width, height):
         self.screen = screen
@@ -126,3 +105,13 @@ class Homepage:
         pygame.draw.rect(self.screen, homepage_bg_color, homepage_rect)
 
         return homepage_rect
+
+
+
+
+
+
+
+
+
+
