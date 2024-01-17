@@ -1,7 +1,7 @@
 import pygame
 from MandleBrot import MandelbrotViewer
 from julia import JuliaViewer  # Import JuliaViewer from your JuliaSet module
-
+from Barnsley import BarnsleyFernViewer
 class Popup:
     def __init__(self, screen, width, height):
         self.screen = screen
@@ -27,7 +27,7 @@ class FractalSelectionMenu:
         self.width = width
         self.height = height
         self.font = pygame.font.Font(None, 36)
-        self.menu_items = ["Mandelbrot Set", "Julia Set"]  # Add any other fractal names as needed
+        self.menu_items = ["Mandelbrot Set", "Julia Set","Barnsley Fern"]  # Add any other fractal names as needed
         self.selected_fractal = None
 
     def show(self, width, height):
@@ -92,10 +92,12 @@ class FractalViewerController:
         self.fractal_viewer = None
 
     def set_fractal_viewer(self, fractal_name):
-        if fractal_name == "Mandelbrot Set":
-            self.fractal_viewer = MandelbrotViewer(self.width, self.height)
-        elif fractal_name == "Julia Set":
+        if fractal_name == "Julia Set":
             self.fractal_viewer = JuliaViewer(self.width, self.height)  # Create JuliaViewer instance
+        elif fractal_name == "Mandelbrot Set":
+            self.fractal_viewer = MandelbrotViewer(self.width, self.height)
+        elif fractal_name == "Barnsley Fern":
+            self.fractal_viewer = BarnsleyFernViewer(self.width, self.height)
 
     def show_fractal_viewer(self):
         if self.fractal_viewer:

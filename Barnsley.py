@@ -1,71 +1,56 @@
 import pygame
-from pygame.locals import *
 from OpenGL.GL import *
-from OpenGL.GLUT import *
 from OpenGL.GLU import *
-import numpy as np
+import random
 
-# Set up window size
-window_width = 800
-window_height = 800
+class BarnsleyFernViewer:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
 
-def barnsley_fern(n_points):
-    points = np.zeros((n_points, 2))
-    x, y = 0, 0
+    def render_barnsley_fern(self, num_points):
+        glClearColor(0.0, 0.0, 0.0, 1.0)
+        glClear(GL_COLOR_BUFFER_BIT)
+        glColor3f(0.0, 1.0, 0.0)
+        glPointSize(1.0)
 
-    for i in range(n_points - 1):
-        r = np.random.random()
+        x, y = 0, 0
 
-        if r <= 0.01:
-            x, y = 0, 0.16 * y
-        elif r <= 0.86:
-            new_x = 0.85 * x + 0.04 * y
-            new_y = -0.04 * x + 0.85 * y + 1.6
-            x, y = new_x, new_y
-        elif r <= 0.93:
-            new_x = 0.2 * x - 0.26 * y
-            new_y = 0.23 * x + 0.22 * y + 1.6
-            x, y = new_x, new_y
-        else:
-            new_x = -0.15 * x + 0.28 * y
-            new_y = 0.26 * x + 0.24 * y + 0.44
-            x, y = new_x, new_y
+        glBegin(GL_POINTS)
+        for _ in range(num_points):
+            r = random.uniform(0, 100)
 
-        points[i + 1] = [x, y]
+            if r < 1:
+                x, y = 0, 0.16 * y
+            elif r < 86:
+                x, y = 0.85 * x + 0.04 * y, -0.04 * x + 0.85 * y + 1.6
+            elif r < 93:
+                x, y = 0.2 * x - 0.26 * y, 0.23 * x + 0.22 * y + 1.6
+            else:
+                x, y = -0.15 * x + 0.28 * y, 0.26 * x + 0.24 * y + 0.44
 
-    return points
+            screen_x = int((x + 2.5) * (self.width / 5))
+            screen_y = int((y - 1) * (self.height / 10))
+            glVertex2f(screen_x, screen_y)
+        glEnd()
+        glFlush()
 
-def draw_barnsley_fern(points):
-    glClearColor(0.0, 0.0, 0.0, 1.0)
-    glClear(GL_COLOR_BUFFER_BIT)
-    glColor3f(0.0, 1.0, 0.0)
+    def show(self):
+        pygame.init()
+        display = (self.width, self.height)
+        self.screen = pygame.display.set_mode(display, pygame.DOUBLEBUF | pygame.OPENGL)
 
-    glBegin(GL_POINTS)
-    for i in range(len(points)):
-        x, y = points[i]
-        glVertex2f((x + 2.182) * (window_width / 9.998), (y - 9.9983) * (window_height / 14.286))
-    glEnd()
+        gluOrtho2D(0, self.width, 0, self.height)
 
-    glFlush()
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
 
-def main():
-    pygame.init()
-    display = (window_width, window_height)
-    pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
-
-    n_points = 100000
-    fern_points = barnsley_fern(n_points)
-
-    gluOrtho2D(-window_width / 2, window_width / 2, -window_height / 2, window_height / 2)
-
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-
-        draw_barnsley_fern(fern_points)
-        pygame.display.flip()
+            self.render_barnsley_fern(num_points=50000)
+            pygame.display.flip()
 
 if __name__ == "__main__":
-    main()
+    viewer = BarnsleyFernViewer(800, 800)
+    viewer.show()
