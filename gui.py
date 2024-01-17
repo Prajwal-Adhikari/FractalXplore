@@ -50,6 +50,7 @@ class GUI:
         self.julia_viewer = JuliaViewer(width, height)
         self.barnsley_fern_viewer = BarnsleyFernViewer(width,height) 
 
+
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -89,6 +90,7 @@ class GUI:
                     menu_rect = self.fractal_menu_component.show(self.width, self.height)
                     if menu_rect.collidepoint(event.pos):
                         self.selected_fractal = self.fractal_menu_component.get_selected_fractal()
+                        print(self.selected_fractal)
                         self.show_fractal_viewer()
                         self.showing_fractal_menu = False
                     else:
@@ -104,6 +106,8 @@ class GUI:
             self.mandelbrot_viewer.show()
         elif self.selected_fractal == "Barnsley Fern":
             self.barnsley_fern_viewer.show()
+
+  
 
     def update(self):
         pass
@@ -181,3 +185,5 @@ class GUI:
 if __name__ == "__main__":
     gui = GUI()
     gui.run()
+
+

@@ -27,16 +27,21 @@ class FractalSelectionMenu:
         self.width = width
         self.height = height
         self.font = pygame.font.Font(None, 36)
-        self.menu_items = ["Mandelbrot Set", "Julia Set","Barnsley Fern"]  # Add any other fractal names as needed
+        self.menu_items = ["Mandelbrot Set", "Julia Set", "Barnsley Fern"]  # Add any other fractal names as needed
         self.selected_fractal = None
 
     def show(self, width, height):
-        menu_rect = pygame.Rect(width // 4, height // 4, width // 2, height // 2)
+        button_width = 200  # Adjust the width of each button
+        button_gap = 20  # Adjust the horizontal gap between buttons
+
+        total_menu_width = 50 + len(self.menu_items) * (button_width + button_gap)
+        menu_rect = pygame.Rect((width - total_menu_width) // 2, height // 4, total_menu_width, height // 2)
+
         pygame.draw.rect(self.screen, (255, 255, 255), menu_rect)
         pygame.draw.rect(self.screen, (0, 0, 0), menu_rect, 5)
 
         for i, item in enumerate(self.menu_items):
-            item_rect = pygame.Rect(menu_rect.left + 50, menu_rect.top + 50 + i * 50, menu_rect.width - 100, 40)
+            item_rect = pygame.Rect(menu_rect.left + 50 + i * (button_width + button_gap), menu_rect.top + 50, button_width, 40)
             pygame.draw.rect(self.screen, (150, 150, 150), item_rect)
             pygame.draw.rect(self.screen, (0, 0, 0), item_rect, 2)
 
@@ -47,8 +52,8 @@ class FractalSelectionMenu:
             if item_rect.collidepoint(pygame.mouse.get_pos()):
                 pygame.draw.rect(self.screen, (255, 0, 0), item_rect, 2)
 
-                if pygame.mouse.get_pressed()[0] and not self.selected_fractal:  # Only trigger once on mouse press
-                    self.selected_fractal = item  # Set the selected fractal
+                if pygame.mouse.get_pressed()[0] and not self.selected_fractal:
+                    self.selected_fractal = item
 
         return menu_rect
 
@@ -56,7 +61,7 @@ class FractalSelectionMenu:
         return self.selected_fractal
 
     def reset_selected_fractal(self):
-        self.selected_fractal = None  # Add a method to reset selected fractal
+        self.selected_fractal = None
 
 class HelloWindow:
     def __init__(self, screen, width, height):

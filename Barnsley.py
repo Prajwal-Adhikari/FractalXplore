@@ -8,6 +8,7 @@ class BarnsleyFernViewer:
         self.width = width
         self.height = height
 
+
     def render_barnsley_fern(self, num_points):
         glClearColor(0.0, 0.0, 0.0, 1.0)
         glClear(GL_COLOR_BUFFER_BIT)

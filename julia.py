@@ -13,6 +13,7 @@ class JuliaViewer:
         self.max_iteration = 50
         self.c_real, self.c_imag = -0.7, 0.27015  # Default Julia set parameters
 
+
     def render_julia(self):
         glClearColor(0.0, 0.0, 0.0, 1.0)
         glClear(GL_COLOR_BUFFER_BIT)
